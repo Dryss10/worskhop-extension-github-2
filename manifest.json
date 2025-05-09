@@ -1,0 +1,17 @@
+{
+    "manifest_version": 3,
+    "name": "back-git",
+    "version": "1.0",
+    "description": "Change le fond de GitHub dynamiquement ou par couleur choisie",
+    "permissions": ["activeTab", "storage"],
+    "host_permissions": ["https://api.github.com/*"],
+    "action": {
+      "default_popup": "popup.html"
+    },
+    "content_scripts": [
+      {
+        "matches": ["*://github.com/*/*"],
+        "js": ["content.js"]
+      }
+    ]
+  }

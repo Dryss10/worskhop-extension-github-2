@@ -1,3 +1,9 @@
+chrome.storage.local.get(['savedColor'], function(result) {
+  if (result.savedColor) {
+    document.getElementById('colorPicker').value = result.savedColor;
+  }
+});
+
 document.getElementById('colorPicker').addEventListener('input', (e) => {
     const color = e.target.value;
     chrome.tabs.query({ active: true, currentWindow: true }, tabs => {

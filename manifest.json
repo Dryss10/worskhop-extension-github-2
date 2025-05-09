@@ -12,6 +12,8 @@
       {
         "matches": ["*://github.com/*/*"],
         "js": ["content.js"]
-      }
-    ]
+      }],
+      "icons": {
+      "128": "icon/back-icon128.png"
+    }
 }

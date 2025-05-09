@@ -8,6 +8,11 @@ chrome.storage.local.get(['savedColor', 'savedImage'], function(result) {
       document.body.style.backgroundPosition = 'center';
       document.body.style.backgroundRepeat = 'no-repeat';
     };
+    img.onerror = function() {
+      console.error('Failed to load background image');
+      // If image fails to load, remove it from storage
+      chrome.storage.local.remove(['savedImage']);
+    };
     img.src = result.savedImage;
   } else if (result.savedColor) {
     document.body.style.backgroundImage = 'none';
@@ -31,10 +36,11 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
         document.body.style.backgroundSize = 'cover';
         document.body.style.backgroundPosition = 'center';
         document.body.style.backgroundRepeat = 'no-repeat';
-        // Save the image to storage
-        chrome.storage.local.set({ savedImage: message.imageData });
-        // Remove saved color when setting image
-        chrome.storage.local.remove(['savedColor']);
+      };
+      img.onerror = function() {
+        console.error('Failed to load background image');
+        // If image fails to load, remove it from storage
+        chrome.storage.local.remove(['savedImage']);
       };
       img.src = message.imageData;
     }

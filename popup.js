@@ -1,4 +1,4 @@
-// Load saved color when popup opens
+// Load saved background when popup opens
 chrome.storage.local.get(['savedColor', 'savedImage'], function(result) {
   if (result.savedColor) {
     document.getElementById('colorPicker').value = result.savedColor;
@@ -36,11 +36,12 @@ document.getElementById('imageUpload').addEventListener('change', (e) => {
             document.getElementById('removeImage').style.display = 'block';
             
             // Save and apply the image
-            chrome.storage.local.set({ savedImage: imageData });
-            chrome.tabs.query({ active: true, currentWindow: true }, tabs => {
-                chrome.tabs.sendMessage(tabs[0].id, { 
-                    action: 'setImage', 
-                    imageData: imageData 
+            chrome.storage.local.set({ savedImage: imageData }, function() {
+                chrome.tabs.query({ active: true, currentWindow: true }, tabs => {
+                    chrome.tabs.sendMessage(tabs[0].id, { 
+                        action: 'setImage', 
+                        imageData: imageData 
+                    });
                 });
             });
         };

@@ -1,6 +1,6 @@
 {
     "manifest_version": 3,
-    "name": "back-git",
+    "name": "GitHub Back",
     "version": "1.0",
     "description": "Change le fond de GitHub dynamiquement ou par couleur choisie",
     "permissions": ["activeTab", "storage"],
@@ -14,4 +14,4 @@
         "js": ["content.js"]
       }
     ]
-  }
+}

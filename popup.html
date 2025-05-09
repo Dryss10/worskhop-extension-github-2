@@ -25,11 +25,25 @@
     button:hover {
       background-color: #0056b3;
     }
+    #imagePreview {
+      max-width: 100%;
+      margin: 10px 0;
+      display: none;
+    }
+    .remove-btn {
+      background-color: #dc3545;
+    }
+    .remove-btn:hover {
+      background-color: #c82333;
+    }
   </style>
 </head>
 <body>
   <input type="color" id="colorPicker" title="Choisir une couleur">
   <button id="dynamicButton">Fond dynamique</button>
+  <input type="file" id="imageUpload" accept="image/*" title="Choisir une image">
+  <img id="imagePreview" alt="Preview">
+  <button id="removeImage" class="remove-btn" style="display: none;">Supprimer l'image</button>
   <script src="popup.js"></script>
 </body>
 </html>

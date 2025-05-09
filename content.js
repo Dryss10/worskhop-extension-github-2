@@ -1,10 +1,14 @@
 // Load saved background when page loads
 chrome.storage.local.get(['savedColor', 'savedImage'], function(result) {
   if (result.savedImage) {
-    document.body.style.backgroundImage = `url(${result.savedImage})`;
-    document.body.style.backgroundSize = 'cover';
-    document.body.style.backgroundPosition = 'center';
-    document.body.style.backgroundRepeat = 'no-repeat';
+    const img = new Image();
+    img.onload = function() {
+      document.body.style.backgroundImage = `url(${result.savedImage})`;
+      document.body.style.backgroundSize = 'cover';
+      document.body.style.backgroundPosition = 'center';
+      document.body.style.backgroundRepeat = 'no-repeat';
+    };
+    img.src = result.savedImage;
   } else if (result.savedColor) {
     document.body.style.backgroundImage = 'none';
     document.body.style.backgroundColor = result.savedColor;
@@ -21,12 +25,18 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
       chrome.storage.local.remove(['savedImage']);
     }
     else if (message.action === 'setImage') {
-      document.body.style.backgroundImage = `url(${message.imageData})`;
-      document.body.style.backgroundSize = 'cover';
-      document.body.style.backgroundPosition = 'center';
-      document.body.style.backgroundRepeat = 'no-repeat';
-      // Remove saved color when setting image
-      chrome.storage.local.remove(['savedColor']);
+      const img = new Image();
+      img.onload = function() {
+        document.body.style.backgroundImage = `url(${message.imageData})`;
+        document.body.style.backgroundSize = 'cover';
+        document.body.style.backgroundPosition = 'center';
+        document.body.style.backgroundRepeat = 'no-repeat';
+        // Save the image to storage
+        chrome.storage.local.set({ savedImage: message.imageData });
+        // Remove saved color when setting image
+        chrome.storage.local.remove(['savedColor']);
+      };
+      img.src = message.imageData;
     }
     else if (message.action === 'removeImage') {
       document.body.style.backgroundImage = 'none';
